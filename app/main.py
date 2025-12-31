@@ -52,7 +52,6 @@ def delete_contact(id: str):
     acess = get_connection()
     return acess.delete_one_contact(id)
 
-
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="localhost", port=8000)

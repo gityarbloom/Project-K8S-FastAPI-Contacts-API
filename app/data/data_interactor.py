@@ -29,37 +29,37 @@ class MongodbConnect:
         self.db = self.client[db_name]
         return self.db
     
-    def table_aacess(self, db_name:str=config["db_name"], coll_name:str="my_contacts"):
+    def coll_aacess(self, db_name:str=config["db_name"], coll_name:str="my_contacts"):
         self.db = self.db_acess(db_name)
         self.collection = self.db[coll_name]
         return self.collection
 
     def get_all(self):
         contact_list = []
-        connect_to_table = self.table_aacess()
-        all_contacts = connect_to_table.find()
+        connect_to_coll = self.coll_aacess()
+        all_contacts = connect_to_coll.find()
         for doc in all_contacts:
             doc["_id"] = str(doc["_id"])
             contact_list.append(doc)
         return contact_list
     
     def create_new_contact(self, contact_data: dict):
-        connect_to_table = self.table_aacess()
-        result = connect_to_table.insert_one(contact_data)
+        connect_to_coll = self.coll_aacess()
+        result = connect_to_coll.insert_one(contact_data)
         return str(result.inserted_id)
     
     def update(self, id, new_contact:dict):
-        table = self.table_aacess()
+        coll = self.coll_aacess()
         try:
-            table.update_one({"_id": ObjectId(id), "$set": new_contact})
+            coll.update_one({"_id": ObjectId(id), "$set": new_contact})
             return True
         except:
             return False
         
     def delete_one_contact(self, id:str):
-        table = self.table_aacess()
+        coll = self.coll_aacess()
         try:
-            table.delete_one({"_id": ObjectId(id)})
+            coll.delete_one({"_id": ObjectId(id)})
             return "The delete was successful"
         except:
             return "The delete was failed"
