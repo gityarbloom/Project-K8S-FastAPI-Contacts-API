@@ -42,7 +42,9 @@ def update_contact(id: str, contact_data: Contact):
     acess = get_connection()
     try:
         new_contact = contact_data.model_dump()
-        acess.update(id, new_contact)
+        success = acess.update(id, new_contact)
+        if not success:
+            raise HTTPException(status_code=404, detail="Contact not apdating")
     except:
         return "The update was failed"
     return "The update was successful"

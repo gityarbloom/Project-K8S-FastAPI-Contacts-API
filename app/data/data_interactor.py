@@ -51,11 +51,11 @@ class MongodbConnect:
     def update(self, id, new_contact:dict):
         coll = self.coll_aacess()
         try:
-            coll.update_one({"_id": ObjectId(id), "$set": new_contact})
-            return True
+            coll.update_one({"_id": ObjectId(id)}, {"$set": new_contact})
         except:
             return False
-        
+        return True
+
     def delete_one_contact(self, id:str):
         coll = self.coll_aacess()
         try:
